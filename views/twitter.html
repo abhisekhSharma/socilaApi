@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+
+    $( document ).ready(function() {
+      $("#twRes").click(function(){
+          $.ajax({url: "/twitterRes", success: function(result){
+            console.log(result);
+          }});
+      });
+
+      $("#fbRes").click(function(){
+          $.ajax({url: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%22www.marksandspencer.com%22",
+            success: function(result){
+            console.log(result);
+          }});
+      });
+    });
+
+    </script>
+  </head>
+  <body>
+
+    <button id="twRes">test twitter</button>
+    <button id="fbRes">test facebook</button>
+
+  </body>
+</html>
