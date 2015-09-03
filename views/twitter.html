@@ -9,14 +9,34 @@
     $( document ).ready(function() {
       $("#twRes").click(function(){
           $.ajax({url: "/twitterRes", success: function(result){
-            console.log(result);
+            var value,
+            fabres =  $('#tw ul');
+            $('#tw').show();
+            $.each( result, function( key, value ) {
+              var li = $('<li>'+key +':'+ value+'</li>')
+                  .appendTo(fabres);
+              //alert( key + ": " + value );
+            });
           }});
       });
 
       $("#fbRes").click(function(){
           $.ajax({url: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%22www.marksandspencer.com%22",
             success: function(result){
-            console.log(result);
+            
+            var value,
+            fabres =  $('#fb ul');
+            $('#fb').show();
+            $.each( result.data[0], function( key, value ) {
+              var li = $('<li>'+key +':'+ value+'</li>')
+                  .appendTo(fabres);
+              //alert( key + ": " + value );
+            });
+           
+            
+             
+              
+
           }});
       });
     });
@@ -27,6 +47,18 @@
 
     <button id="twRes">test twitter</button>
     <button id="fbRes">test facebook</button>
+    <div id='fb' style="width:250px; height: 250px; overflow: auto; border: 1px solid #A9A8F3;
+    background-color: #EFEFFF; display: none; border-radius:10px; float:left; padding:10px;">
+    <h3>Facebook Data</h3>
+      <ul>
+      </ul>
+    </div>
+    <div id='tw' style="width:250px; height: 250px; overflow: auto; border: 1px solid #A9A8F3;
+    background-color: #EFEFFF; display: none; border-radius:10px; float:left; padding:10px;">
+    <h3>Twitter Data</h3>
+      <ul>
+      </ul>
+    </div>
 
   </body>
 </html>
