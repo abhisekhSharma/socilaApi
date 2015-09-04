@@ -1,15 +1,118 @@
+<!doctype html>
 <html>
-<head>
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</head>
-<body>
-<h1>Dashboard<h1>
-</body>
+    <!-- Latest compiled and minified JavaScript -->
+  </head>
+  <body>
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Social Link</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/dashboard">Dashboard</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/about">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="min-height: 500px">
+      <div class="row">
+        <div class="col col-xs-12 col-sm-6">
+          <div class="row">
+            <div class="col text-center">
+              <button id="twRes" class="btn btn-primary">Load Twitter</button>
+            </div>
+          </div>
+          <div class="row">
+            <div id="tw" class="col well" style="display:none;width:100%; height: 500px; overflow: auto;">
+              <h3 class="text-center">Twitter Data</h3>
+              <table>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col col-xs-12 col-sm-6">
+          <div class="row">
+            <div class="col text-center">
+              <button id="fbRes" class="btn btn-primary">Load Facebook</button>
+            </div>
+          </div>
+          <div class="row">
+            <div id="fb" class="col well" style="display:none;width:100%; height: 500px; overflow: auto;">
+              <h3 class="text-center">Facebook Data</h3>
+              <table>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <footer class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="pull-right"><a href="#top">Back to top</a>
+                </p>
+                <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+
+    $( document ).ready(function() {
+      $("#twRes").click(function(){
+          $.ajax({url: "/twitterRes", success: function(result){
+            var value,
+            fabres =  $('#tw table');
+            $('#tw').show();
+            $.each( result, function( key, value ) {
+              var li = $('<tr><td>'+key +'</td><td>'+ value+'</td></tr>')
+                  .appendTo(fabres);
+            });
+          }});
+      });
+
+      $("#fbRes").click(function(){
+          $.ajax({url: "https://graph.facebook.com/fql?q=SELECT%20url,%20normalized_url,%20share_count,%20like_count,%20comment_count,%20total_count,%20commentsbox_count,%20comments_fbid,%20click_count%20FROM%20link_stat%20WHERE%20url=%22www.marksandspencer.com%22",
+            success: function(result){
+            
+            var value,
+            fabres =  $('#fb table');
+            $('#fb').show();
+            $.each( result.data[0], function( key, value ) {
+              var li = $('<tr><td>'+key +'</td><td>'+ value+'</td></tr>')
+                  .appendTo(fabres);
+            });
+          }});
+      });
+    });
+
+    </script>
+  </body>
 </html>
