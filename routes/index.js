@@ -9,9 +9,4 @@ router.get('/dashboard', function(req, res, next) {
   res.render('dashboard', { title: 'Dashboard' });
 });
 
-router.get('/twitter', function(req, res, next) {
-  res.render('twitter', { title: 'Dashboard' });
-});
-
-
 module.exports = router;
